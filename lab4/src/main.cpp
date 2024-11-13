@@ -52,7 +52,7 @@ void vTask3(void *pvParameters) {
 
   // Variables to accumulate queue count and calculate average
   UBaseType_t queueCountSum = 0;
-  int sampleCount = 0;
+  int sampleCount = 0, lossCount = 0;
 
   // Run until maxTicksToRun has been reached
   while ((xTaskGetTickCount() - xLastWakeTime) < maxTicksToRun) {
@@ -64,12 +64,15 @@ void vTask3(void *pvParameters) {
     sampleCount++;
 
     // TODO: Enqueue the encoded pressure value sensorQueue with xTicksToWait
+    // If the queue is full and timeout, record with lossCount
 
     // TODO: Delay using vTaskDelayUntil.  Parameters: xLastWakeTime, xFrequency
   }
 
-  if (sampleCount > 0)
+  if (sampleCount > 0) {
     printf("Average queue count observed by vTask3: %.2f\n", (float)queueCountSum / sampleCount);
+    printf("Average loss count observed by vTask3: %.2f\n", (float)lossCount / sampleCount);
+  }
 
 }
 
